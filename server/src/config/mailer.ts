@@ -4,14 +4,21 @@ import {createTransport} from "nodemailer"
 import { join } from "path";
 import handlerbars from "handlebars"
 
+// Validate required environment variables
+const requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS'];
+for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+        throw new Error(`Missing required environment variable: ${envVar}`);
+    }
+}
 
 export const transporter = createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, 
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || "587"),
+    secure: process.env.SMTP_SECURE === "true", 
     auth: {
-        user: "sotomayor.oscar1408@gmail.com",
-        pass: "rjcn furi nkpk gaqp "
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
 },
 tls: {
     rejectUnauthorized: false
@@ -29,7 +36,7 @@ transporter.verify().then(() => {
 export const changePasswordTemplate = (fileName: string)=> {
 
     try{
-        const templatePath = join("src/views/", fileName);
+        const templatePath = join(process.env.EMAIL_TEMPLATE_DIR || "src/views/", fileName);
         const templateSource = readFileSync(templatePath, "utf-8");
         return handlerbars.compile(templateSource);
     }catch (error) {
