@@ -1,22 +1,24 @@
 
 import { readFileSync } from "fs";
-import {createTransport} from "nodemailer"
+import { createTransport } from "nodemailer";
 import { join } from "path";
-import handlerbars from "handlebars"
+import handlerbars from "handlebars";
+import dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
 
 export const transporter = createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, 
+    host: process.env.EMAIL_HOST,
+    port: Number(process.env.EMAIL_PORT),
+    secure: false,
     auth: {
-        user: "sotomayor.oscar1408@gmail.com",
-        pass: "rjcn furi nkpk gaqp "
-},
-tls: {
-    rejectUnauthorized: false
-
-},
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
 })
 
 transporter.verify().then(() => {
