@@ -5,6 +5,7 @@ import "reflect-metadata"
 import { AppDataSource } from "./db"
 
 import cookieparser from "cookie-parser"
+import { gymRoutes } from "./routes/gym.routes"
 
 
 dotenv.config()
@@ -32,11 +33,12 @@ main()
 app.get("/ping", (_req, res)=>{
     console.log("oli")
     res.send("pong")
-    console.log(process.env.ENV_PROD)
 })
 
 
 app.use(userRoutes)
+
+app.use(gymRoutes)
 
 
 

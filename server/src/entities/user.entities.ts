@@ -13,6 +13,8 @@ import * as bcrypt from "bcrypt";
 import { Roles } from "./roles.entities";
 import { Membership } from "./membership.entity";
 import { PublicUserInfo } from "../controller/user/user.types";
+import { Gym } from "./gym.entity";
+import { Branch } from "./branches.entity";
 
 @Entity({ name: 'users' })
 export class UserInfo extends BaseEntity {
@@ -34,6 +36,16 @@ export class UserInfo extends BaseEntity {
   @ManyToOne(() => Roles, role => role.users, { nullable: false })
   @JoinColumn({ name: "role_id" })
   role: Roles;
+
+  @OneToMany(() => Gym, gym => gym.owner)
+  ownedGyms: Gym[];
+
+  @OneToMany(() => Gym, gym => gym.users)
+  gyms: Gym[];
+
+  @ManyToOne(() => Branch, branch => branch.users, { nullable: true })
+  @JoinColumn({ name: "branch_id" })
+  branch: Branch;
 
   @BeforeInsert()
   @BeforeUpdate()

@@ -1,11 +1,13 @@
 
 import { readFileSync } from "fs";
-import { createTransport } from "nodemailer";
+import {createTransport} from "nodemailer"
 import { join } from "path";
-import handlerbars from "handlebars";
-import dotenv from 'dotenv';
+import handlerbars from "handlebars"
 
-<<<<<<< HEAD
+import dotenv from "dotenv"
+
+dotenv.config();
+
 // Validate required environment variables
 const requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS'];
 for (const envVar of requiredEnvVars) {
@@ -13,6 +15,8 @@ for (const envVar of requiredEnvVars) {
         throw new Error(`Missing required environment variable: ${envVar}`);
     }
 }
+
+
 
 export const transporter = createTransport({
     host: process.env.SMTP_HOST,
@@ -26,22 +30,6 @@ tls: {
     rejectUnauthorized: false
 
 },
-=======
-// Load environment variables
-dotenv.config();
-
-export const transporter = createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT),
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
->>>>>>> 3c7abc9f3db3f364ee7e269abc412267bcedce94
 })
 
 transporter.verify().then(() => {

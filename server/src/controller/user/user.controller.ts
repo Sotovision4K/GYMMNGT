@@ -9,8 +9,9 @@ import bcryot from "bcrypt"
 
 import jwt from "jsonwebtoken"
 import { changePasswordTemplate, transporter } from "../../config/mailer"
+import dotenv from "dotenv"
 
-
+dotenv.config()
 
 export const createUser = async (req : Request<unknown, unknown, User>, res : Response)=>{
 
@@ -204,21 +205,6 @@ export const initiateChangePassWord = async (req: Request<unknown, unknown, User
     }
 
 
-    // const isValid = await bcryot.compare(oldPassword, userFound.password);
-    // if (!isValid) {
-    //     return res.status(401).json({ message: "Old password is incorrect" });
-    // }
-
-    // try{
-    //     const hashedPassword = await bcryot.hash(newPassword, parseInt(process.env.SALT_ROUNDS as string));
-    //     userFound.password = hashedPassword;
-
-    //     await userFound.save();
-    //     return res.status(200).json({ message: "Password changed successfully" });
-    // }catch (error) {
-    //     console.error("Error changing password:", error);
-    //     return res.status(500).json({ message: "Internal server error" });
-    // }
 }
 
 export const sendChangePasswordForm = async (_req: Request, res: Response) => {
